@@ -31,12 +31,24 @@ const App = () => (
   </div>
 );
 
-const Search = () => (
-  <div>
-    <label htmlFor="search">Search: </label>
-    <input id="searct" type="text" />
-  </div>
-);
+const Search = () => {
+  const handleChange = (event) => {
+    console.log(event);
+    console.log(event.target.value);
+  }
+
+  const handleBlur = (blur) => {
+    console.log(blur);
+    console.log('this event is only triggered when unfocusing the input field');
+  }
+
+  return (
+    <div>
+      <label htmlFor="search">Search: </label>
+      <input id="search" type="text" onChange={handleChange} onBlur={handleBlur}/>
+    </div>
+  );
+};
 
 const List = () => (
   <ul>
