@@ -35,20 +35,20 @@ const App = () => {
 };
 
 const Search = () => {
+  let [searchTerm, setSearchTerm] = React.useState('');
+
   const handleChange = (event) => {
-    console.log(event);
-    console.log(event.target.value);
-  }
-  
-  const handleBlur = (blur) => {
-    console.log(blur);
-    console.log('this event is only triggered when unfocusing the input field');
+    setSearchTerm(event.target.value);
   }
   
   return (
     <div>
       <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={handleChange} onBlur={handleBlur}/>
+      <input id="search" type="text" onChange={handleChange} />
+
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
     </div>
   );
 };
