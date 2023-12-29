@@ -64,17 +64,25 @@ const List = ({ list }) => (
   </ul>
 );
 
-const Item = ({ item }) => (
+const Item = ({
+  item: {
+    title,
+    url,
+    author,
+    num_comments,
+    points
+  }
+}) => (
   <li>
     <span>
-      <a href={item.url}>{item.title}</a>
+      <a href={url}>{title}</a>
     </span>
     <br />
-    <span>{item.author}</span>
+    <span>{author}</span>
     <br />
-    <span>{item.num_comments}</span>
+    <span>{num_comments}</span>
     <br />
-    <span>{item.points}</span>
+    <span>{points}</span>
   </li>
 )
 
