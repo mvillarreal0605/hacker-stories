@@ -43,12 +43,16 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useStorageState('search', 'Redux');
 
   const [stories, setStories] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
+    setIsLoading(true);
+
     getAsyncStories().then(result => {
       setStories(result.data.stories);
+      setIsLoading(false);
     });
-  });
+  }, []);
 
   const handleRemoveStory = (item) => {
     const newStories = stories.filter(
@@ -82,7 +86,11 @@ const App = () => {
 
       <hr />
       
-      <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+      {isLoading ? (
+        <p>Loading ...</p>
+      ) : (
+        <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+      )}
     </div>
   );
 };
