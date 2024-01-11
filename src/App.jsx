@@ -132,7 +132,7 @@ const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit}) => (
   </form>
 )
 
-const InputWithLabel = ({ id, label, value, type='text', onInputChange, isFocused, children }) => {
+const InputWithLabel = ({ id, value, type='text', onInputChange, isFocused, children }) => {
   const inputRef = React.useRef();
 
   React.useEffect(() => {
