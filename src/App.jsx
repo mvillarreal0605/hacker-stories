@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import './App.css'
+import styles from './App.module.css';
 
 const useStorageState = (key, initialState) => {
   const [value, setValue] = React.useState(
@@ -95,8 +95,8 @@ const App = () => {
   };
 
   return (
-    <div className='container'>
-      <h1 className='headline-primary'>My Hacker Stories</h1>
+    <div className={styles.container}>
+      <h1 className={styles.headlinePrimary}>My Hacker Stories</h1>
 
       <SearchForm searchTerm={searchTerm} onSearchInput={handleSearchInput} onSearchSubmit={handleSearchSubmit}/>
 
@@ -112,7 +112,7 @@ const App = () => {
 };
 
 const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit}) => (
-  <form onSubmit={onSearchSubmit} className='search-form'>
+  <form onSubmit={onSearchSubmit} className={styles.SearchForm}>
     <InputWithLabel
       id="search"
       label="Search"
@@ -125,7 +125,7 @@ const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit}) => (
 
     &nbsp;
 
-    <button type='submit' disabled={!searchTerm} className='button button_large'>
+    <button type='submit' disabled={!searchTerm} className={`${styles.button} ${styles.buttonLarge}`}>
       Search
     </button>
   </form>
@@ -150,7 +150,7 @@ const InputWithLabel = ({ id, value, type='text', onInputChange, isFocused, chil
         type={type}
         value={value}
         onChange={onInputChange}
-        className='input'
+        className={styles.input}
       />
     </>
   )
@@ -165,7 +165,7 @@ const List = ({ list, onRemoveItem }) => (
 );
 
 const Item = ({ item, onRemoveItem }) => (
-  <li className='item'>
+  <li className={styles.item}>
     <span style={{ width: '40%' }}>
       <a href={item.url}>{item.title}</a>
     </span>
@@ -173,7 +173,7 @@ const Item = ({ item, onRemoveItem }) => (
     <span style={{ width: '10%' }}>{item.num_comments}</span>
     <span style={{ width: '10%' }}>{item.points}</span>
     <span style={{ width: '10%' }}>
-      <button className='button button_small' type='button' onClick={() => onRemoveItem(item)}>
+      <button className={`${styles.button} ${styles.buttonSmall}`} type='button' onClick={() => onRemoveItem(item)}>
         Remove
       </button>
     </span>
