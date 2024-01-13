@@ -1,6 +1,9 @@
 import * as React from 'react';
 import axios from 'axios';
+
 import styles from './App.module.css';
+
+import Check from './check.svg?react';
 
 const useStorageState = (key, initialState) => {
   const [value, setValue] = React.useState(
@@ -174,7 +177,7 @@ const Item = ({ item, onRemoveItem }) => (
     <span style={{ width: '10%' }}>{item.points}</span>
     <span style={{ width: '10%' }}>
       <button className={`${styles.button} ${styles.buttonSmall}`} type='button' onClick={() => onRemoveItem(item)}>
-        Remove
+        <Check height='18px' width='18px' />
       </button>
     </span>
   </li>
