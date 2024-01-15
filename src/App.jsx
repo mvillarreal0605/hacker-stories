@@ -85,9 +85,9 @@ const App = () => {
     handleFetchStories();
   }, [handleFetchStories]);
 
-  const handleRemoveStory = (item) => {
+  const handleRemoveStory = React.useCallback((item) => {
     dispatchStories({ type: 'REMOVE_STORY', payload: item });
-  };
+  }, []);
 
   const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
@@ -162,12 +162,14 @@ const InputWithLabel = ({ id, value, type='text', onInputChange, isFocused, chil
   )
 }
 
-const List = ({ list, onRemoveItem }) => (
-  <ul>
-    {list.map((item) => (
-      <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
-    ))}
-  </ul>
+const List = React.memo(
+  ({ list, onRemoveItem }) => (
+    <ul>
+      {list.map((item) => (
+        <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
+      ))}
+    </ul>
+  )
 );
 
 const Item = ({ item, onRemoveItem }) => (
