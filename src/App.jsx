@@ -54,6 +54,13 @@ const storiesReducer = (state, action) => {
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='
 
+const getSumComments = (stories) => {
+  return stories.data.reduce(
+    (result, valure) => result + valure.num_comments,
+    0
+  );
+};
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useStorageState('search', 'React');
 
@@ -99,9 +106,14 @@ const App = () => {
     event.preventDefault();
   };
 
+  const sumComments = React.useMemo(
+    () => getSumComments(stories),
+    [stories]
+  );
+
   return (
     <div>
-      <h1>My Hacker Stories</h1>
+      <h1>My Hacker Stories with {sumComments} comments.</h1>
 
       <SearchForm searchTerm={searchTerm} onSearchInput={handleSearchInput} onSearchSubmit={handleSearchSubmit}/>
 
