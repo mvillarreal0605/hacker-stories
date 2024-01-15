@@ -2,18 +2,12 @@ import * as React from 'react';
 import axios from 'axios';
 
 const useStorageState = (key, initialState) => {
-  const isMounted = React.useRef(false);
-
   const [value, setValue] = React.useState(
     localStorage.getItem(key) || initialState
   )
 
   React.useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true;
-    } else {
-      localStorage.setItem(key, value);
-    };
+    localStorage.setItem(key, value);
   }, [value, key]);
 
   return [value, setValue];
@@ -54,13 +48,6 @@ const storiesReducer = (state, action) => {
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='
 
-const getSumComments = (stories) => {
-  return stories.data.reduce(
-    (result, valure) => result + valure.num_comments,
-    0
-  );
-};
-
 const App = () => {
   const [searchTerm, setSearchTerm] = useStorageState('search', 'React');
 
@@ -92,9 +79,9 @@ const App = () => {
     handleFetchStories();
   }, [handleFetchStories]);
 
-  const handleRemoveStory = React.useCallback((item) => {
+  const handleRemoveStory = (item) => {
     dispatchStories({ type: 'REMOVE_STORY', payload: item });
-  }, []);
+  };
 
   const handleSearchInput = (event) => {
     setSearchTerm(event.target.value);
@@ -106,14 +93,9 @@ const App = () => {
     event.preventDefault();
   };
 
-  const sumComments = React.useMemo(
-    () => getSumComments(stories),
-    [stories]
-  );
-
   return (
     <div>
-      <h1>My Hacker Stories with {sumComments} comments.</h1>
+      <h1>My Hacker Stories</h1>
 
       <SearchForm searchTerm={searchTerm} onSearchInput={handleSearchInput} onSearchSubmit={handleSearchSubmit}/>
 
@@ -174,14 +156,12 @@ const InputWithLabel = ({ id, value, type='text', onInputChange, isFocused, chil
   )
 }
 
-const List = React.memo(
-  ({ list, onRemoveItem }) => (
-    <ul>
-      {list.map((item) => (
-        <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
-      ))}
-    </ul>
-  )
+const List = ({ list, onRemoveItem }) => (
+  <ul>
+    {list.map((item) => (
+      <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
+    ))}
+  </ul>
 );
 
 const Item = ({ item, onRemoveItem }) => (
