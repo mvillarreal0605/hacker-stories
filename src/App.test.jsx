@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 import App, { storiesReducer, Item, List, SearchForm, InputWithLabel } from './App';
 
