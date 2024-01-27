@@ -178,6 +178,7 @@ describe('App', () => {
     const reactPromise = Promise.resolve({
       data: {
         hits: stories,
+        page: 0
       },
     });
 
@@ -193,6 +194,7 @@ describe('App', () => {
     const javascriptPromise = Promise.resolve({
       data: {
         hits: [anotherStory],
+        page: 0
       },
     });
 
@@ -220,9 +222,7 @@ describe('App', () => {
     expect(screen.queryByDisplayValue('JavaScript')).toBeNull();
 
     expect(screen.queryByText('Jordan Walke')).toBeInTheDocument();
-    expect(
-      screen.queryByText('Dan Abramov, Andrew Clark')
-    ).toBeInTheDocument();
+    expect(screen.queryByText('Dan Abramov, Andrew Clark')).toBeInTheDocument();
     expect(screen.queryByText('Brendan Eich')).toBeNull();
 
     // User Interaction -> Search
@@ -234,9 +234,8 @@ describe('App', () => {
     });
 
     expect(screen.queryByDisplayValue('React')).toBeNull();
-    expect(
-      screen.queryByDisplayValue('JavaScript')
-    ).toBeInTheDocument();
+
+    expect(screen.queryByDisplayValue('JavaScript')).toBeInTheDocument();
 
     fireEvent.submit(screen.queryByText('Search'));
 
@@ -245,9 +244,8 @@ describe('App', () => {
     await waitFor(async () => await javascriptPromise);
 
     expect(screen.queryByText('Jordan Walke')).toBeNull();
-    expect(
-      screen.queryByText('Dan Abramov, Andrew Clark')
-    ).toBeNull();
+    expect(screen.queryByText('Dan Abramov, Andrew Clark')).toBeNull();
+
     expect(screen.queryByText('Brendan Eich')).toBeInTheDocument();
   });
 });
