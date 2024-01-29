@@ -1,6 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
-import { sortBy } from 'lodash';
+
+import { SearchForm } from './SearchForm/index';
+import { List } from './List/index';
 
 const useStorageState = (key, initialState) => {
   const [value, setValue] = React.useState(
@@ -184,119 +186,6 @@ const LastSearches = ({ lastSearches, onLastSearch }) => (
   </>
 );
 
-const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit}) => (
-  <form onSubmit={onSearchSubmit}>
-    <InputWithLabel
-      id="search"
-      label="Search"
-      value={searchTerm}
-      isFocused
-      onInputChange={onSearchInput}
-    >
-      <strong>Search:</strong>
-    </InputWithLabel>
-
-    &nbsp;
-
-    <button type='submit' disabled={!searchTerm}>
-      Search
-    </button>
-  </form>
-)
-
-const InputWithLabel = ({ id, value, type='text', onInputChange, isFocused, children }) => {
-  const inputRef = React.useRef();
-
-  React.useEffect(() => {
-    if (isFocused && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isFocused]);
-
-  return (
-    <>
-      <label htmlFor={id}>{children}</label>
-      &nbsp;
-      <input
-        ref={inputRef}
-        id={id}
-        type={type}
-        value={value}
-        onChange={onInputChange}
-      />
-    </>
-  )
-}
-
-const SORTS = {
-  NONE: (list) => list,
-  TITLE: (list) => sortBy(list, 'title'),
-  AUTHOR: (list) => sortBy(list, 'author'),
-  COMMENT: (list) => sortBy(list, 'num_comments').reverse(),
-  POINT: (list) => sortBy(list, 'points').reverse
-};
-
-const List = ({ list, onRemoveItem }) => {
-  const [sort, setSort] = React.useState({
-    sortKey: 'NONE',
-    isReverse: false
-  });
-
-  const handleSort = (sortKey) => {
-    const isReverse = sort.sortKey === sortKey && !sort.isReverse;
-
-    setSort({ sortKey, isReverse });
-  };
-
-  const sortFunction = SORTS[sort.sortKey];
-  const sortedList   = sort.isReverse
-    ? sortFunction(list).reverse()
-    : sortFunction(list);
-
-  return (
-    <ul>
-      <li style={{ display: 'flex' }}>
-        <span style={{ width: '40%' }}>
-          <button type='button' onClick={() => handleSort('TITLE')}>Title</button>
-        </span>
-        <span style={{ width: '30%' }}>
-          <button type='button' onClick={() => handleSort('AUTHOR')}>Author</button>
-        </span>
-        <span style={{ width: '10%' }}>
-          <button type='button' onClick={() => handleSort('COMMENT')}>Comments</button>
-        </span>
-        <span style={{ width: '10%' }}>
-          <button type='button' onClick={() => handleSort('POINT')}>Points</button>
-        </span>
-        <span style={{ width: '10%' }}>Actions</span>
-      </li>
-      {sortedList.map((item) => (
-        <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
-      ))}
-    </ul>
-  );
-};
-
-const Item = ({ item, onRemoveItem }) => (
-  <li style={{ display: 'flex' }}>
-    <span style={{ width: '40%' }}>
-      <a href={item.url}>{item.title}</a>
-    </span>
-    <br />
-    <span style={{ width: '30%' }}>{item.author}</span>
-    <br />
-    <span style={{ width: '10%' }}>{item.num_comments}</span>
-    <br />
-    <span style={{ width: '10%' }}>{item.points}</span>
-    &nbsp;
-    <span style={{ width: '10%' }}>
-      <button type='button' onClick={() => onRemoveItem(item)}>
-        Remove
-      </button>
-    </span>
-  </li>
-);
-
 export default App;
 
-export { storiesReducer, SearchForm, InputWithLabel, List, Item };
+export { storiesReducer };

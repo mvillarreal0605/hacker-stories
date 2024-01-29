@@ -2,7 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 
-import App, { storiesReducer, Item, List, SearchForm, InputWithLabel } from './App';
+import App, { storiesReducer } from './App';
+
+import { Item } from './List';
+import { SearchForm } from './SearchForm';
 
 vi.mock('axios');
 
